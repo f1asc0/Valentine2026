@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Святого Валентина!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Начальный экран с Хатсуне Мико и Леном -->
+    <div id="scene1" class="scene active">
+        <!-- Разделенный фон -->
+        <div class="split-bg">
+            <div class="yellow-half hidden" id="yellowHalf"></div>
+        </div>
+
+        <!-- Хатсуне Мико -->
+        <div class="character hatsune-miko">
+            <img src="{{ url_for('static', filename='assets/hatsune_miko.png') }}" alt="Хатсуне Мико" class="miko-image">
+            <div class="envelope-hand">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-front">
+                        <div class="heart-shape"></div>
+                    </div>
+                    <div class="envelope-back"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Лен Кагамине с ПРОСТЫМ БУКЕТОМ (скрыт по умолчанию) -->
+        <div class="character len-kagamine hidden" id="len">
+            <img src="{{ url_for('static', filename='assets/len_kagamine.png') }}" alt="Лен Кагамине" class="len-image">
+
+            <!-- ПРОСТОЙ БУКЕТ В СТИЛЕ КОНВЕРТА -->
+            <div class="flower-bouquet">
+                <!-- Первый цветок (главный) -->
+                <div class="flower flower-1">
+                    <div class="flower-center"></div>
+                    <div class="petal petal-1"></div>
+                    <div class="petal petal-2"></div>
+                    <div class="petal petal-3"></div>
+                    <div class="petal petal-4"></div>
+                    <div class="stem"></div>
+                    <div class="leaf leaf-left"></div>
+                    <div class="leaf leaf-right"></div>
+                </div>
+                <!-- Второй цветок -->
+                <div class="flower flower-2">
+                    <div class="flower-center"></div>
+                    <div class="petal petal-1"></div>
+                    <div class="petal petal-2"></div>
+                    <div class="petal petal-3"></div>
+                    <div class="petal petal-4"></div>
+                    <div class="stem"></div>
+                </div>
+                <!-- Третий цветок -->
+                <div class="flower flower-3">
+                    <div class="flower-center"></div>
+                    <div class="petal petal-1"></div>
+                    <div class="petal petal-2"></div>
+                    <div class="petal petal-3"></div>
+                    <div class="petal petal-4"></div>
+                    <div class="stem"></div>
+                </div>
+                <!-- Ленточка для букета -->
+                <div class="ribbon"></div>
+            </div>
+        </div>
+
+        <!-- Диалог Мико (слева) -->
+        <div class="dialog-box" id="dialogBox">
+            <div class="dialog-text" id="dialogText">
+                Привет! У меня для тебя особое послание!
+            </div>
+            <div class="click-hint">Нажми на меня</div>
+        </div>
+
+        <!-- Диалог Лена (справа, скрыт) -->
+        <div class="dialog-box len-dialog hidden" id="lenDialog">
+            <div class="dialog-text">
+                Я тоже здесь 💛<br>
+                Он передаёт тебе эти прекрасные цветы
+            </div>
+        </div>
+
+        <div class="instructions">
+            <i class="fas fa-mouse-pointer"></i> Нажимай на диалоговые окна для продолжения
+        </div>
+    </div>
+
+    <!-- Письмо с текстом -->
+    <div id="scene2" class="scene">
+        <div class="pink-bg"></div>
+
+        <div class="letter-container">
+            <div class="love-letter" id="loveLetter">
+                <div class="letter-content">
+                    <h2>Моей любимой</h2>
+                    <div class="letter-text">
+                        <p>Дорогая Полина,</p>
+                        <p>Каждый день с тобой — как маленькое чудо. Твоя улыбка освещает мой мир, твой смех — самая прекрасная музыка, которую я когда-либо слышал.</p>
+                        <p>Ты вдохновляешь меня становиться лучше каждый день. С тобой я понял, что такое настоящее счастье.</p>
+                        <p>В этот День Святого Валентина я хочу сказать тебе, что ты — самое драгоценное, что есть в моей жизни.</p>
+                        <p>Люблю тебя больше, чем можно выразить словами.</p>
+                        <p class="signature">Твой извращенец</p>
+                    </div>
+                </div>
+                <div class="letter-decoration"></div>
+            </div>
+        </div>
+
+        <div class="dialog-box letter-dialog" id="letterDialog">
+            <div class="dialog-text">
+                Хочешь увидеть продолжение?
+            </div>
+            <div class="dialog-buttons">
+                <button class="dialog-btn yes-btn" onclick="continueToPhotos()">Да</button>
+                <button class="dialog-btn no-btn" onmouseover="moveNoButton(this)">Нет</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Коллаж с фото -->
+    <div id="scene3" class="scene">
+        <div class="photo-collage" id="photoCollage"></div>
+
+        <div class="collage-text">
+            <h2>Наши воспоминания</h2>
+            <p>Каждый момент с тобой особенный...</p>
+        </div>
+
+        <!-- Кнопка перехода к финалу -->
+        <button id="toFinalBtn" class="final-next-btn" onclick="goToFinal()">
+            Перейти к финалу 💖
+        </button>
+    </div>
+
+    <!-- Финальная сцена с сердцем -->
+    <div id="scene4" class="scene">
+        <div class="dark-red-bg"></div>
+        <canvas id="heartCanvas"></canvas>
+
+        <div class="final-message">
+            <h1>С Днём Святого Валентина!</h1>
+            <p>Полиночка, солнышко мое, я тебя очень сильно люблю!</p>
+            <div class="hearts">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+            <button class="restart-btn" onclick="restartScene()">
+                <i class="fas fa-redo"></i> Пересмотреть
+            </button>
+        </div>
+    </div>
+
+    <!-- Музыка -->
+    <audio id="backgroundMusic" loop>
+        <source src="{{ url_for('static', filename='assets/music.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control">
+        <button id="musicToggle" onclick="toggleMusic()">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
